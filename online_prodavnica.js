@@ -1,3 +1,5 @@
+"use strict";
+
 class Article {
     constructor(name, price, description) {
         this.name = name
@@ -8,16 +10,14 @@ class Article {
 
 let articles = []
 
-function initializeArticles () {
-    if (articles.length === 0) {
-        articles = [
-            new Article("Monitor", 165, "MonitorDescription"),
-            new Article("Tv", 650, "TvDescription"),
-            new Article("Mis", 20, "MisDescription")
-        ]
-    }
+function updateLocalStorage() {
+    localStorage.setItem("articles", JSON.stringify(articles))
+}
 
-    initializeArticlesTable(articles)
+function initializeArticles() {
+    let data = localStorage.getItem("articles")
+    articles = data ? JSON.parse(data) : []
+    initializeArticlesTable();
 }
 
 
@@ -79,7 +79,9 @@ function handleFormSubmission() {
         let noviArtikal = new Article(name, price, description)
         articles.push(noviArtikal)
 
+        updateLocalStorage()
         initializeArticles()
+        
     })
 }
 
