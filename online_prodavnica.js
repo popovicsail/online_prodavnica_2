@@ -8,17 +8,17 @@ class Article {
 
 let articles = []
 
-function InitializeArticles () {
+function initializeArticles () {
     articles = [
         new Article("Monitor", 165, "MonitorDescription"),
         new Article("Tv", 650, "TvDescription"),
         new Article("Mis", 20, "MisDescription")
     ]
 
-    InitializeArticlesTable(articles)
+    initializeArticlesTable(articles)
 }
 
-function InitializeArticlesTable (articles) {
+function initializeArticlesTable (articles) {
     let table = document.querySelector("#tabela")
     let tbody = document.querySelector("tbody")
     tbody.innerHTML = ""
@@ -41,8 +41,27 @@ function InitializeArticlesTable (articles) {
         tr.appendChild(price)
         tr.appendChild(description)
 
+        tr.addEventListener("click", function (){
+            displayArticleDetails(articles[i])
+        })
+
         table.appendChild(tr)
     }
 }
 
-InitializeArticles()
+function displayArticleDetails (article) {
+    let table = document.querySelector("#detalji")
+    let p = document.createElement("p")
+
+    p.innerHTML = "name: " + article.name + "<br>" + "price: " + article.price + "<br>" + "description: " + article.description + "<br>"
+
+    if (table.firstChild) {
+        table.innerHTML = ""
+    }
+
+    table.appendChild(p)
+}
+
+
+
+initializeArticles()
