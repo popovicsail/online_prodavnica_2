@@ -9,17 +9,19 @@ class Article {
 let articles = []
 
 function initializeArticles () {
-    articles = [
-        new Article("Monitor", 165, "MonitorDescription"),
-        new Article("Tv", 650, "TvDescription"),
-        new Article("Mis", 20, "MisDescription")
-    ]
+    if (articles.length === 0) {
+        articles = [
+            new Article("Monitor", 165, "MonitorDescription"),
+            new Article("Tv", 650, "TvDescription"),
+            new Article("Mis", 20, "MisDescription")
+        ]
+    }
 
     initializeArticlesTable(articles)
 }
 
-function initializeArticlesTable (articles) {
-    let table = document.querySelector("#tabela")
+
+function initializeArticlesTable () {
     let tbody = document.querySelector("tbody")
     tbody.innerHTML = ""
 
@@ -45,7 +47,7 @@ function initializeArticlesTable (articles) {
             displayArticleDetails(articles[i])
         })
 
-        table.appendChild(tr)
+        tbody.appendChild(tr)
     }
 }
 
@@ -63,5 +65,23 @@ function displayArticleDetails (article) {
 }
 
 
+function handleFormSubmission() {
+    let submitBtn = document.querySelector("#submitBtn")
+    submitBtn.addEventListener ("click", function (event) {
+        event.preventDefault()
+        let forma = document.querySelector('#forma')
+        let formData = new FormData(forma)
 
-initializeArticles()
+        let name = formData.get("naziv")
+        let price = formData.get("cena")
+        let description = formData.get("opis")
+
+        let noviArtikal = new Article(name, price, description)
+        articles.push(noviArtikal)
+
+        initializeArticles()
+    })
+}
+
+document.addEventListener('DOMContentLoaded', initializeArticles)
+document.addEventListener('DOMContentLoaded', handleFormSubmission)
